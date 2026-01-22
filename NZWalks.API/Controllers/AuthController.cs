@@ -60,6 +60,9 @@ namespace NZWalks.API.Controllers
 
             var roles = await _userManager.GetRolesAsync(user);
 
+            if(roles == null || !roles.Any())
+                return BadRequest("User has no roles assigned");
+
             var jwtToken = _tokenRepository.CreateJwtToken(user, roles.ToList());
 
             var response = new LoginResponseDto
